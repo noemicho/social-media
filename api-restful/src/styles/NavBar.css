@@ -1,0 +1,14 @@
+.menu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(53, 53, 52);
+}
+
+.hover:hover{
+    background-color: rgb(57, 57, 57);
+}
