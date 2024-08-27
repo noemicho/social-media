@@ -1,3 +1,60 @@
 .logo{
-    width: 20%;
+    width: 300px;
+}
+
+.logo-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.info-login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-login{
+    padding: 15px;
+    border-radius: 5px;
+    width: 50%;
+    font-family: "Red Hat Display", Arial, sans-serif;
+    font-weight: 400;
+    background-color: rgb(186, 185, 187);
+    box-sizing: border-box;
+    margin: 5px;
+}
+
+input::placeholder{
+    color: rgb(36, 36, 36);
+}
+
+.login-button{
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    font-family: "Red Hat Display", Arial, sans-serif;
+    font-weight: 700;
+    color: antiquewhite;
+    background-color: rgb(34, 94, 173);
+    cursor: pointer;
+}
+
+.login{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.register-button{
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+
+}
+
+.register-button{
+    color: white;
+    text-decoration: none;
 }
