@@ -9,7 +9,7 @@ export function NavBar(){
     return(
         <>
             <div className='menu'>
-                <Link to='/'><img src={homeIcon} className='hover' alt="home-icon"/></Link>
+                <Link to='/home'><img src={homeIcon} className='hover' alt="home-icon"/></Link>
                 <Link to='/addPost'> <img src={addPostIcon}  className='hover' alt="add-post-icon"/></Link>
                 <Link to='/profile'><img src={profileIcon} className='hover' alt="profile-icon"/></Link>       
             </div>
