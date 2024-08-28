@@ -1,9 +1,10 @@
 import { NavBar } from "../components/NavBar";
+import "../styles/Profile.css"
 
 export function Profile(){
     return(
         <>
-            <h1>Profile</h1>
+            <h1 class="title">Profile</h1>
             <NavBar />
         </>
     )
