@@ -12,7 +12,4 @@ app.listen(3002, function(){
     console.log('Escutando a porta 3002 do backend!')
 })
 
-//otQaCsGxyJkPwN5d
-//admin
-
 
