@@ -16,6 +16,7 @@ const userController = {
 
         }catch (error){
             console.log(error)
+            response.status(500).json({ msg: 'Erro ao criar o usuario.' });
         }
     },
     getAll: async (request, response) => {
@@ -26,6 +27,7 @@ const userController = {
 
         }catch (error){
             console.log(error)
+            response.status(500).json({ msg: 'Erro pegar os usuarios.' });
         }
     },
     get: async (request, response) => {
@@ -41,6 +43,7 @@ const userController = {
 
         }catch (error){
             console.log(error)
+            response.status(500).json({ msg: 'Erro ao pegar o usuario.' });
         }
     },
     delete: async (request, response) => {
@@ -60,6 +63,7 @@ const userController = {
 
         }catch (error){
             console.log(error)
+            response.status(500).json({ msg: 'Erro ao deletar o usuario.' });
         }
     },
     update: async (request, response) => {
@@ -79,6 +83,7 @@ const userController = {
             
         }catch (error){
             console.log(error)
+            response.status(500).json({ msg: 'Erro ao atualizar o usuario.' });
         }
     }
 }
