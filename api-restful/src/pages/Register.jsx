@@ -30,7 +30,7 @@ export function Register(){
                 <placeholder class="texto"></placeholder>
                 <input class="input" type="text" id="name" placeholder="Enter your name:"></input>
                 <input class="input" type="email" id="email" placeholder="Enter your email:"></input>
-                <input class="input" type="text" id="user" placeholder="Enter your user:"></input> 
+                <input class="input" type="text" id="username" placeholder="Enter your username:"></input> 
                 <input class="input" type="password" id="password" placeholder="Enter your password:"></input>   
                 <div class="buttons">
                     <GoBack/>
