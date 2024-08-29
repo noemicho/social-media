@@ -1,0 +1,13 @@
+.tudo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profilePic{
+    width: 15%;
+}
+
+.info{
+    background-color: red;
+}
