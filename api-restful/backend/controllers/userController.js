@@ -61,6 +61,25 @@ const userController = {
         }catch (error){
             console.log(error)
         }
+    },
+    update: async (request, response) => {
+        try{
+            const id = request.params.id
+            const userUpdates = request.body; // Pega apenas os campos que vieram na requisição
+
+            const updatedUser = await User.findByIdAndUpdate(id, userUpdates, { new: true });
+
+            if(!updatedUser){
+                response.status(404).json({msg: 'Não foi encontrado o usuário com esse Id'})
+                return
+            }
+
+            response.status(200).json({updatedUser, msg: 'Usuário atualizado com sucesso'})
+
+            
+        }catch (error){
+            console.log(error)
+        }
     }
 }
 
