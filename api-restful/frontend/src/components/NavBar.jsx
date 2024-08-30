@@ -6,6 +6,9 @@ import '../styles/NavBar.css'
 import {Link} from 'react-router-dom'
 
 export function NavBar(){
+
+    const userId = localStorage.getItem('userId');
+    console.log(userId)
     return(
         <>
             <div className='menu'>

@@ -26,8 +26,12 @@ export function Login(){
             const data = await response.json();
 
             if (response.ok) {
-                // Login bem-sucedido, redireciona para a Home
+                // Armazena o userId no Local Storage
+                localStorage.setItem('userId', data.userId);
+
+                // Login bem-sucedido, redireciona para a Home com o ID do usuário na URL
                 navigate('/home');
+
             } else {
                 // Se o login falhar, exibe a mensagem de erro
                 setErrorMessage(data.msg || 'Erro ao fazer login');
