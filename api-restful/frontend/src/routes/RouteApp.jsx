@@ -4,7 +4,6 @@ import { Login } from "../pages/Login"
 import { Profile } from "../pages/Profile"
 import { Register } from "../pages/Register"
 import { AddPost }  from "../pages/AddPost"
-import { Post }  from "../components/Post"
 
 export function RouteApp(){
     return(
@@ -13,8 +12,7 @@ export function RouteApp(){
             <Route path='/register' element={<Register />}/>
             <Route path='/home' element={<Home />}/>
             <Route path='/profile' element={<Profile />}/>      
-            <Route path='/addPost' element={<AddPost />}/>=
-            <Route path='/post' element={<Post />}/>
+            <Route path='/addPost' element={<AddPost />}/>
         </Routes>
     )
 }

@@ -1,29 +1,62 @@
 import Post from '../models/Post.js'
+import User from '../models/User.js'; // Importa o modelo de User para buscar o ObjectId
 
 const postController = {
     create: async (request, response) => {
-        try{
+        try {
+            const usuario = await User.findById(request.body.user);
+    
+            if (!usuario) {
+                return response.status(404).json({ msg: 'Usuário não encontrado.' });
+            }
+    
+            // Mapeia e aguarda todas as promessas para `like`
+            const likes = await Promise.all(
+                request.body.like.map(async (userId) => {
+                    const user = await User.findById(userId);
+                    if (!user) {
+                        console.warn(`Usuário com ID ${userId} não encontrado nos likes.`);
+                        return null; // Retorna null se o usuário não for encontrado
+                    }
+                    return user._id;
+                })
+            ).then((results) => results.filter((id) => id !== null)); // Filtra os valores nulos
+    
+            // Mapeia e aguarda todas as promessas para `comments`
+            const comments = await Promise.all(
+                request.body.comments.map(async (comment) => {
+                    const user = await User.findById(comment.user);
+                    if (!user) {
+                        console.warn(`Usuário com ID ${comment.user} não encontrado nos comentários.`);
+                        return null;
+                    }
+                    return {
+                        user: user._id, // Acessa o _id do usuário encontrado
+                        text: comment.text,
+                    };
+                })
+            ).then((results) => results.filter((comment) => comment !== null)); // Filtra comentários nulos
+    
             const post = {
-                username: request.body.username,
+                user: usuario._id,
                 image: request.body.image,
                 description: request.body.description,
-                like: request.body.like,
-                comments: request.body.comments
-            }
-
-            const res = await Post.create(post)
-
-            response.status(201).json({res, msg: 'Post criado com sucesso'})
-
-        }catch (error){
-            console.log(error)
-            response.status(500).json({ msg: 'Erro ao criar o post.' })
+                like: likes,
+                comments: comments,
+            };
+    
+            const res = await Post.create(post);
+            response.status(201).json({ res, msg: 'Post criado com sucesso' });
+    
+        } catch (error) {
+            console.error('Erro ao criar o post:', error);
+            response.status(500).json({ msg: 'Erro ao criar o post.' });
         }
     },
     getAll: async (request, response) => {
         try{
-            // Obtém todos os posts e popula o campo 'username' com os dados do usuário correspondente
-            const postAll = await Post.find().populate('username');
+            // Obtém todos os posts e popula o campo 'user' com os dados do usuário correspondente
+            const postAll = await Post.find().populate('user');
             response.status(200).json(postAll);
 
         }catch (error){
@@ -35,8 +68,8 @@ const postController = {
         try{
             const postId = request.params.id;
 
-            // Obtém o post pelo ID e popula o campo 'username' com os dados do usuário correspondente
-            const post = await Post.findById(postId).populate('username');
+            // Obtém o post pelo ID e popula o campo 'user' com os dados do usuário correspondente
+            const post = await Post.findById(postId).populate('user');
 
             if (!post) {
                 return response.status(404).json({ msg: 'Post não encontrado.' });
@@ -73,7 +106,7 @@ const postController = {
             const postUpdates = request.body;
 
             // Atualiza o post pelo ID com os campos fornecidos
-            const updatedPost = await Post.findByIdAndUpdate(postId, postUpdates, { new: true }).populate('username');
+            const updatedPost = await Post.findByIdAndUpdate(postId, postUpdates, { new: true }).populate('user');
 
             if (!updatedPost) {
                 return response.status(404).json({ msg: 'Post não encontrado.' });
