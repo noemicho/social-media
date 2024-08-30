@@ -1,4 +1,7 @@
 import '../styles/Post.css';
+import curtiuIcon from '../images/curtiu.png'
+import naoCurtiuIcon from '../images/nao-curtiu.png'
+import comentarioIcon from '../images/comentario.png'
 
 export function Post({ post }) {
     // Funções para as ações dos botões (curtir, comentar, compartilhar)
@@ -25,8 +28,8 @@ export function Post({ post }) {
                     </section>
 
                     <section className='actions'>
-                        <button onClick={handleLike}>Curtir</button>
-                        <button onClick={handleComment}>Comentar</button>
+                        <button onClick={handleLike}><img className='like' src={naoCurtiuIcon}/></button>
+                        <button onClick={handleComment}><img className='comment' src={comentarioIcon}/></button>
                     </section>
 
                     <section>

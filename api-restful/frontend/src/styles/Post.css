@@ -35,3 +35,17 @@
     font-style: italic;
     color: black;
 }
+
+button{
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.comment{
+    width: 40px;
+}
+
+.like{
+    width: 40px;
+}
