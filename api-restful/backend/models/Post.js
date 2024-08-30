@@ -3,9 +3,9 @@ import mongoose from 'mongoose'
 import User from './User.js'
 
 const postSchema = new mongoose.Schema({
-    username: {
-        type: mongoose.Schema.Types.ObjectId, // Referência ao ID do usuário
-        ref: 'User', 
+    user: {
+        type: mongoose.Schema.Types.ObjectId, // Deve ser ObjectId para referência a User
+        ref: 'User',
         required: true
     },
     image: {
@@ -23,7 +23,8 @@ const postSchema = new mongoose.Schema({
     comments: [{
         user: {
             type: mongoose.Schema.Types.ObjectId, // Referência ao ID do usuário que comentou
-            ref: 'User'
+            ref: 'User',
+            required: true
         },
         text: {
             type: String, // Texto do comentário
