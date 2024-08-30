@@ -7,15 +7,25 @@ export function Profile(){
         <div class="tudo">
             <img src={profileIcon} class="profilePic" alt="profile-icon"/>
             <div class="info">
-                <input type="text" class="campo"></input>
-                <input type="text" class="campo"></input>
-                <input type="text" class="campo"></input>
+                <p class="campo"> Name </p>
+                <p class="campo"> User</p>
+                <p class="campo"> E-mail</p>
+                <button class="btn-mais"> Ver mais</button>
            </div>
+
            <div class ="photos">
-                <p class="photo">Photo 1</p>
-                <p class="photo">Photo 2</p>
-                <p class="photo">Photo 3</p>
-                <p class="photo">Photo 4</p>
+                <section className='areaImagemP'>
+                    <img src="" alt="imagem" />
+                </section>
+                <section className='areaImagemP'>
+                    <img src="" alt="imagem" />
+                </section>
+                <section className='areaImagemP'>
+                    <img src="" alt="imagem" />
+                </section>
+                <section className='areaImagemP'>
+                    <img src="" alt="imagem" />
+                </section>
            </div>
             <NavBar />
         </div>
