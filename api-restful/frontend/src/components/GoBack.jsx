@@ -6,7 +6,7 @@ export function GoBack(){
     return(
       
         <div>
-        <Link to='/'><img class="btn" src={returnIcon}/></Link>
+        <Link to='/'><img className="btn" src={returnIcon}/></Link>
         </div>
        
     )

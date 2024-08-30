@@ -4,7 +4,7 @@ import "../styles/AddPost.css"
 export function AddPost(){
     return(
         <>
-            <h1 class="title">Add Post</h1>
+            <h1 className="title">Add Post</h1>
             <NavBar/>
         </>
     )

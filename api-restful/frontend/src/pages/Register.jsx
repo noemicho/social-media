@@ -44,10 +44,10 @@ export function Register(){
 
     return(
         <>
-        <div class="all">
-            <h1 class="title">Register</h1>
-            <form class="form" onSubmit={handleSubmit}>
-                <input class="input" 
+        <div className="all">
+            <h1 className="title">Register</h1>
+            <form className="form" onSubmit={handleSubmit}>
+                <input className="input" 
                 type="text" 
                 id="name" 
                 placeholder="Enter your name:"
@@ -55,7 +55,7 @@ export function Register(){
                 onChange={(e) => setName(e.target.value)}
                 ></input>
 
-                <input class="input" 
+                <input className="input" 
                 type="text" 
                 id="email" 
                 placeholder="Enter your email:"
@@ -63,7 +63,7 @@ export function Register(){
                 onChange={(e) => setEmail(e.target.value)}
                 ></input>
 
-                <input class="input" 
+                <input className="input" 
                 type="password" 
                 id="password" 
                 placeholder="Enter your password:"
@@ -71,7 +71,7 @@ export function Register(){
                 onChange={(e) => setPassword(e.target.value)}
                 ></input>
 
-                <input class="input" 
+                <input className="input" 
                 type="text" 
                 id="username" 
                 placeholder="Enter your username:"
@@ -79,9 +79,9 @@ export function Register(){
                 onChange={(e) => setUsername(e.target.value)}
                 ></input> 
                 
-                <div class="buttons">
+                <div className="buttons">
                     <GoBack/>
-                    <button class="create-btn">Create Account</button>
+                    <button className="create-btn">Create Account</button>
                 </div>
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
                 {successMessage && <p className="success-message">{successMessage}</p>}
