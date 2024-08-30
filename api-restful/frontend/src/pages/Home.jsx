@@ -25,17 +25,21 @@ export function Home() {
 
     return (
         <>
-            <h1 className="title">Home</h1>
+            <div className="body-home">
+                <h1 className="title">Home</h1>
+                    
+                    {loading ? (
+                        <p>Carregando posts...</p>
+                    ) : (
+                        <div className="posts-container">
+                            {posts.map((post) => (
+                                <Post key={post._id} post={post} />
+                            ))}
+                        </div>
+                    )}
+            </div>
+            
             <NavBar />
-            {loading ? (
-                <p>Carregando posts...</p>
-            ) : (
-                <div className="posts-container">
-                    {posts.map((post) => (
-                        <Post key={post._id} post={post} />
-                    ))}
-                </div>
-            )}
         </>
     );
 }

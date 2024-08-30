@@ -1,4 +1,3 @@
-import { NavBar } from "../components/NavBar";
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 import {Link} from 'react-router-dom';
 import { useState } from "react";
@@ -9,33 +8,59 @@ export function Login(){
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
-//aaaaaaaaaaaaaaahhahah
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-    
-        alert("Enviando os dados: " + username + " - " + password);
+        try {
+            const response = await fetch('http://localhost:3002/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
 
-        navigate('/home');
+            const data = await response.json();
 
+            if (response.ok) {
+                // Login bem-sucedido, redireciona para a Home
+                navigate('/home');
+            } else {
+                // Se o login falhar, exibe a mensagem de erro
+                setErrorMessage(data.msg || 'Erro ao fazer login');
+            }
+        } catch (error) {
+            setErrorMessage('Erro ao conectar ao servidor');
+        }
     };
 
     return(
         <>
             <div className="login">
-               <form onSubmit={handleSubmit}>
-                <div className="logo-div">
-                    <img src={logo} className="logo"/>
-                </div>
-                <div className="info-login">
-                    <input type='text' className="input-login" placeholder='Enter your username' onChange={(e) => setUsername(e.target.value)}/>
-                    <input type='password' className="input-login" placeholder='Password' onChange={(e) => setPassword(e.target.value)}/>
+                <form onSubmit={handleSubmit}>
+                    <div className="logo-div">
+                        <img src={logo} className="logo"/>
+                    </div>
+                    <div className="info-login">
+                        <input type='text' 
+                        className="input-login" 
+                        placeholder='Enter your username' 
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}/>
 
-                    <button type="submit" className="login-button">Login</button>
-                    <Link to='/register'><p className="register-button">Register</p></Link>
-                </div>
+                        <input type='password' 
+                        className="input-login" 
+                        placeholder='Password' 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}/>
+
+                        <button type="submit" className="login-button">Login</button>
+                        {errorMessage && <p className="error-message">{errorMessage}</p>}
+                        <Link to='/register'><p className="register-button">Register</p></Link>
+                    </div>
                 </form>
                 
             </div>
