@@ -1,52 +1,36 @@
-body, html {
-    height: 100%;
-    width: 100%;   
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-}
-
-.post{
-    background-color: rgb(238, 238, 238);
+.posicao {
     display: flex;
     justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    width: 500px;
-    height: 600px;
+    margin: 20px 0;
 }
 
+.post {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 500px;
+    background-color: #fff;
+}
 
-.areaImagem{
-    background-color: rgb(197, 197, 197);
+.perfil {
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: black;
+}
+
+.areaImagem {
+    margin-bottom: 10px;
+}
+
+.post-image {
     width: 100%;
-    height: 70%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border-radius: 8px;
 }
 
-.perfil{
-    display: flex;
-    justify-content: left;
+.actions button {
+    margin-right: 10px;
 }
 
-.perfil p{
-    color: black;
-    font-size: larger;
+#legenda {
+    font-style: italic;
 }
-
-#grupo{
-    width: 90%;
-    height: 90%;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-     
-}
-
-#legenda{
-    color: black;
-    height: 10px;
-}
-
