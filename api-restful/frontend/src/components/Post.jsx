@@ -2,12 +2,16 @@ import '../styles/Post.css';
 import curtiuIcon from '../images/curtiu.png'
 import naoCurtiuIcon from '../images/nao-curtiu.png'
 import comentarioIcon from '../images/comentario.png'
+import { useState } from 'react';
 
 export function Post({ post }) {
-    // Funções para as ações dos botões (curtir, comentar, compartilhar)
+
+    const [liked, setLiked] = useState(false);
+    
     const handleLike = () => {
         console.log("Post curtido!");
-        // Implementar lógica de curtir
+
+        setLiked(!liked); // Alterna o estado de curtida
     };
 
     const handleComment = () => {
@@ -28,7 +32,12 @@ export function Post({ post }) {
                     </section>
 
                     <section className='actions'>
-                        <button onClick={handleLike}><img className='like' src={naoCurtiuIcon}/></button>
+                        <button onClick={handleLike}><img
+                                className="like"
+                                src={liked ? curtiuIcon : naoCurtiuIcon} // Mostra o ícone de acordo com o estado
+                                alt={liked ? 'Curtido' : 'Não curtido'}
+                        /></button>
+                    
                         <button onClick={handleComment}><img className='comment' src={comentarioIcon}/></button>
                     </section>
 
