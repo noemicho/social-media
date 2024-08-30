@@ -15,8 +15,8 @@ export function Login(){
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        console.log(username, password);
-        console.log("Envio");
+    
+        alert("Enviando os dados: " + username + " - " + password);
 
         navigate('/home');
 
