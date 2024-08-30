@@ -31,7 +31,7 @@ export function Register(){
             if (response.ok) {
                 // Registro bem-sucedido, exibe uma mensagem de sucesso e redireciona para o login
                 setSuccessMessage('Registro realizado com sucesso! Redirecionando para o login...');
-                setTimeout(() => navigate('/login'), 2000); // Redireciona após 2 segundos
+                setTimeout(() => navigate('/'), 2000); // Redireciona após 2 segundos
             } else {
                 // Se o registro falhar, exibe a mensagem de erro
                 setErrorMessage(data.msg || 'Erro ao registrar');
@@ -64,7 +64,7 @@ export function Register(){
                 ></input>
 
                 <input class="input" 
-                type="text" 
+                type="password" 
                 id="password" 
                 placeholder="Enter your password:"
                 value={password}
@@ -86,7 +86,7 @@ export function Register(){
                 {errorMessage && <p className="error-message">{errorMessage}</p>}
                 {successMessage && <p className="success-message">{successMessage}</p>}
             </form>
-           
+        
         </div>          
         </>
     )
