@@ -1,21 +1,114 @@
-.profile{
+.profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    margin-bottom: 100px;
+}
+
+.profile-header {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    width: 100%;
+    margin-bottom: 20px;
 }
 
-.header{
+#profile-title {
+    font-size: 2rem;
+    font-weight: bold;
     display: flex;
-    flex-direction: row;
+    align-items: center;
 }
 
-#logout, #edit-profile{
-    color: white;
+#profile-username {
+    margin-left: 10px;
+    font-size: 1.2rem;
+    color: #555;
 }
 
-.info{
-    display: flex;
-    flex-direction: column;
+#edit-profile, #logout {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
 }
 
+#edit-profile:hover, #logout:hover {
+    background-color: #0056b3;
+}
+
+.profile-info {
+    margin-bottom: 20px;
+}
+
+.info-field {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: rgb(148, 185, 255);
+}
+
+/* Contêiner para a área dos posts */
+.posts-container-profile {
+    height: 500px; /* Defina a altura máxima para a área dos posts */
+    overflow-y: auto; /* Adiciona rolagem vertical se o conteúdo exceder a altura */
+    margin-top: 20px;
+    padding-right: 10px; /* Adiciona um pouco de espaço para evitar que a barra de rolagem cubra o conteúdo */
+}
+
+/* Grid de posts */
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.profile-post-card {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.profile-post-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.profile-post-card p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Mensagem sem posts */
+.no-posts {
+    font-size: 1.5rem;
+    color: #888;
+    text-align: center;
+    padding: 20px;
+    background-color: #cccccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+.no-posts p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .posts-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .posts-grid {
+        grid-template-columns: 1fr;
+    }
+}

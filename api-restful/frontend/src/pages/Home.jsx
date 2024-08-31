@@ -31,7 +31,7 @@ export function Home() {
                 <h1 className="title">Home</h1>
                     
                 {loading ? (
-                    <p className="carregando">Carregando posts...</p>
+                    <p className="carregando">Loading posts...</p>
                 ) : (
                     <div className="posts-container">
                         {posts.map((post) => (

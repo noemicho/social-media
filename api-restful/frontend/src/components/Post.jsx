@@ -23,8 +23,8 @@ export function Post({ post }) {
         <div className='posicao'>
             <div className='post'>
                 <div id="grupo">
-                    <section className='perfil'>
-                        <p>{post.user?.username || "Perfil desconhecido"}</p> {/* Mostra o username */}
+                    <section className='perfil-post'>
+                        <p>{post.user?.username || post.username || "Perfil desconhecido"}</p> {/* Mostra o username */}
                     </section>
 
                     <section className='areaImagem'>
