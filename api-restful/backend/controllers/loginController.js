@@ -10,20 +10,20 @@ const loginController = {
 
             if (!user) {
                 // Se o usuário não existir, retorna um erro
-                return res.status(401).json({ msg: 'Usuário não encontrado' });
+                return res.status(401).json({ msg: 'User not found...' });
             }
 
             // Verifica se a senha está correta
             if (user.password !== password) {
                 // Se a senha estiver incorreta, retorna um erro
-                return res.status(401).json({ msg: 'Senha incorreta' });
+                return res.status(401).json({ msg: 'Incorrect password...' });
             }
 
             // Login bem-sucedido
-            res.status(200).json({ msg: 'Login realizado com sucesso', userId: user._id });
+            res.status(200).json({ msg: 'Login done successfully', userId: user._id });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ msg: 'Erro ao realizar login' });
+            res.status(500).json({ msg: 'failed to login...' });
         }
     }
 };

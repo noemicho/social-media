@@ -34,10 +34,10 @@ export function Login(){
 
             } else {
                 // Se o login falhar, exibe a mensagem de erro
-                setErrorMessage(data.msg || 'Erro ao fazer login');
+                setErrorMessage(data.msg || 'Failed to login.');
             }
         } catch (error) {
-            setErrorMessage('Erro ao conectar ao servidor');
+            setErrorMessage('Error: must be connected to MongoDB');
         }
     };
 
