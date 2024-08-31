@@ -6,6 +6,7 @@ import "../styles/Profile.css";
 export function Profile() {
     const [user, setUser] = useState(null); 
     const [posts, setPosts] = useState([]); 
+    const [modalOpen, setModalOpen] = useState(false); 
 
     const handleCreatePost = async () => {
         const userId = localStorage.getItem("userId");
@@ -39,6 +40,14 @@ export function Profile() {
         handleCreatePost();
     }, []);
 
+    const handleModalOpen = () => {
+        setModalOpen(true);
+    };
+
+    const handleModalClose = () => {
+        setModalOpen(false);
+    };
+
     return (
         <>
             <div className="profile-container">
@@ -47,7 +56,7 @@ export function Profile() {
                         Profile
                         {user && <span id="profile-username"> ({user.username})</span>}
                     </h1>
-                    <button id="edit-profile">Edit Profile</button>
+                    <button id="edit-profile" onClick={handleModalOpen}>Edit Profile</button>
                     <button id="logout">Logout</button>
                 </div>
 
@@ -73,6 +82,52 @@ export function Profile() {
 
                 <NavBar />
             </div>
+            {/* Editar Perfil */}
+            {modalOpen && (
+                <div className="modal-overlay">
+                            <div className="modal-content">
+                                <button onClick={handleModalClose} className="modal-close">×</button>
+                                <h2>Edit Profile</h2>
+                                <form >
+                                    <label>
+                                        Name:
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            
+                                            
+                                        />
+                                    </label>
+                                    <label>
+                                        Username:
+                                        <input
+                                            type="text"
+                                            name="username"
+                                            
+                                        />
+                                    </label>
+                                    <label>
+                                        E-mail:
+                                        <input
+                                            type="text"
+                                            name="email"
+                                            
+                                        />
+                                    </label>
+                                    <label>
+                                        Password:
+                                        <input
+                                            type="text"
+                                            name="password"
+                                            
+                                        />
+                                    </label>
+                                    
+                                    <button type="submit-edit-profile">Save</button>
+                                </form>
+                            </div>
+                </div>
+            )}
         </>
     );
 }
