@@ -1,26 +1,21 @@
-.tudo{
+.profile{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top:0%;
+    width: 100%;
 }
 
-.profilePic{
-    width: 14%;
+.header{
+    display: flex;
+    flex-direction: row;
+}
+
+#logout, #edit-profile{
+    color: white;
 }
 
 .info{
-    margin-top: 2%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-.campo{
-    background-color: rgb(34, 94, 173);
-    margin-top: 5%;
-    width: 150%;
-    height:90%;
-    text-align: center;
 }
 
