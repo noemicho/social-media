@@ -2,11 +2,20 @@ import { useState, useEffect } from "react";
 import { NavBar } from "../components/NavBar.jsx";
 import { Post } from "../components/Post"; // Importa o componente Post
 import "../styles/Profile.css";
+import dontShow from '../images/dont-show-password.png'
+import Show from '../images/show-password.png'
 
 export function Profile() {
     const [user, setUser] = useState(null); 
     const [posts, setPosts] = useState([]); 
+
     const [modalOpen, setModalOpen] = useState(false); 
+    const [name, setName] = useState(''); 
+    const [username, setUsername] = useState(''); 
+    const [email, setEmail] = useState(''); 
+    const [password, setPassword] = useState(''); 
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleCreatePost = async () => {
         const userId = localStorage.getItem("userId");
@@ -28,6 +37,12 @@ export function Profile() {
                 }));
                 setUser(data.user);
                 setPosts(postsWithUsername);
+
+                // Inicializa os valores do form - autopreenchimento
+                setName(data.user.name);
+                setUsername(data.user.username);
+                setEmail(data.user.email);
+                setPassword(data.user.password)
             } else {
                 console.error("Erro ao obter perfil:", response.statusText);
             }
@@ -46,6 +61,10 @@ export function Profile() {
 
     const handleModalClose = () => {
         setModalOpen(false);
+    };
+
+    const handleShowPassword= () => {
+        setShowPassword(!showPassword);
     };
 
     return (
@@ -94,8 +113,8 @@ export function Profile() {
                                         <input
                                             type="text"
                                             name="name"
-                                            
-                                            
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
                                         />
                                     </label>
                                     <label>
@@ -103,7 +122,8 @@ export function Profile() {
                                         <input
                                             type="text"
                                             name="username"
-                                            
+                                            value={username}
+                                            onChange={(e) => setUsername(e.target.value)}
                                         />
                                     </label>
                                     <label>
@@ -111,16 +131,30 @@ export function Profile() {
                                         <input
                                             type="text"
                                             name="email"
-                                            
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
                                     </label>
                                     <label>
                                         Password:
                                         <input
-                                            type="text"
+                                            type={showPassword ? "text" : "password"}
                                             name="password"
-                                            
-                                        />
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        >
+                                        </input>
+                                        <button
+                                            type="button"
+                                            onClick={handleShowPassword}
+                                            className="show-password"
+                                        >
+                                            <img
+                                                src={showPassword ? Show : dontShow} 
+                                            />
+                                        </button>
+                                    
+                                    
                                     </label>
                                     
                                     <button type="submit-edit-profile">Save</button>
