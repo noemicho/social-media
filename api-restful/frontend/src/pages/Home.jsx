@@ -11,7 +11,9 @@ export function Home() {
         try {
             const response = await fetch('http://localhost:3002/api/post');
             const data = await response.json();
-            setPosts(data);
+            // Ordena os posts por data em ordem decrescente
+            const sortedPosts = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            setPosts(sortedPosts);
             setLoading(false);
         } catch (error) {
             console.error("Erro ao buscar posts:", error);
@@ -28,15 +30,15 @@ export function Home() {
             <div className="body-home">
                 <h1 className="title">Home</h1>
                     
-                    {loading ? (
-                        <p className="carregando">Carregando posts...</p>
-                    ) : (
-                        <div className="posts-container">
-                            {posts.map((post) => (
-                                <Post key={post._id} post={post} />
-                            ))}
-                        </div>
-                    )}
+                {loading ? (
+                    <p className="carregando">Carregando posts...</p>
+                ) : (
+                    <div className="posts-container">
+                        {posts.map((post) => (
+                            <Post key={post._id} post={post} />
+                        ))}
+                    </div>
+                )}
             </div>
             
             <NavBar />

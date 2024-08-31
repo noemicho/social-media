@@ -30,7 +30,11 @@ const postSchema = new mongoose.Schema({
             type: String, // Texto do comentário
             required: true
         }
-    }]
+    }],
+    createdAt: {
+        type: Date,
+        default: Date.now // Define a data e hora atual como padrão
+    }
 })
 
 const Post = mongoose.model("Post", postSchema)
