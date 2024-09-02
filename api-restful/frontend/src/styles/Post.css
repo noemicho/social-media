@@ -10,6 +10,7 @@
     padding: 20px;
     max-width: 500px;
     background-color: #fff;
+    position: relative; /* Cria um contexto de posicionamento para os elementos filhos */
 }
 
 .perfil-post {
@@ -30,6 +31,7 @@
 .actions {
     display: flex;
     align-items: center;
+    margin-top: 10px; /* Ajusta o espaço acima dos ícones de like e comentário */
 }
 
 .actions button {
@@ -41,17 +43,17 @@
     color: black;
 }
 
-button{
+button {
     border: none;
     cursor: pointer;
     background-color: transparent;
 }
 
-.comment{
+.comment {
     width: 40px;
 }
 
-.like{
+.like {
     width: 40px;
 }
 
@@ -60,4 +62,22 @@ button{
     font-weight: 800;
     margin-right: 10px;
     font-size: 16px; 
+}
+
+.comment-count {
+    color: black;
+    font-weight: 800;
+    margin-right: 10px;
+    font-size: 16px; 
+}
+
+/* Adiciona a classe para o ícone da lixeira */
+.delete-icon-container {
+    position: absolute; /* Posiciona a lixeira de forma absoluta dentro do post */
+    top: 10px; /* Distância do topo do post */
+    right: 10px; /* Distância da borda direita do post */
+}
+
+.bin-icon {
+    width: 30px; /* Ajuste o tamanho conforme necessário */
 }

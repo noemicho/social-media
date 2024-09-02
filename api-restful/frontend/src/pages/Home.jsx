@@ -7,6 +7,8 @@ export function Home() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const userId = localStorage.getItem('userId');
+
     const fetchPosts = async () => {
         try {
             const response = await fetch('http://localhost:3002/api/post');
@@ -35,7 +37,7 @@ export function Home() {
                 ) : (
                     <div className="posts-container">
                         {posts.map((post) => (
-                            <Post key={post._id} post={post} />
+                            <Post key={post._id} post={post} user={userId}/>
                         ))}
                     </div>
                 )}

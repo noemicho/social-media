@@ -7,6 +7,7 @@ import Show from '../images/show-password.png';
 import { Navigate, useNavigate } from "react-router-dom";
 
 export function Profile() {
+
     const [user, setUser] = useState(null); 
     const [posts, setPosts] = useState([]); 
     const [modalOpen, setModalOpen] = useState(false); 
@@ -25,7 +26,7 @@ export function Profile() {
 
     const navigate = useNavigate();
 
-    const handleCreatePost = async () => {
+    const handleGetPost = async () => {
         const userId = localStorage.getItem("userId");
 
         try {
@@ -39,9 +40,13 @@ export function Profile() {
 
             if (response.ok) {
                 const data = await response.json();
+                console.log("Dados retornados:", data); 
+                data.posts.forEach((post) => {
+                    console.log('ID do post:', post._id);
+                });
                 const postsWithUsername = data.posts.map(post => ({
                     ...post,
-                    username: data.user.username
+                    username: data.user.username,     
                 }));
                 setUser(data.user);
                 setPosts(postsWithUsername);
@@ -66,7 +71,7 @@ export function Profile() {
     };
 
     useEffect(() => {
-        handleCreatePost();
+        handleGetPost();
     }, []);
 
     const handleModalOpen = () => setModalOpen(true);
@@ -124,6 +129,7 @@ export function Profile() {
         navigate('/');
     }
 
+
     return (
         <>
             <div className="profile-container">
@@ -146,7 +152,7 @@ export function Profile() {
                     <div className="posts-grid">
                         {posts.length > 0 ? (
                             posts.map((post) => (
-                                <Post key={post._id} post={post} />
+                                <Post key={post._id} post={post} user={user} />
                             ))
                         ) : (
                             <div className="no-posts">
