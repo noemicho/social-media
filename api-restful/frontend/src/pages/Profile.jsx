@@ -47,7 +47,8 @@ export function Profile() {
                 const postsWithUsername = data.posts.map(post => ({
                     ...post,
                     username: data.user.username,     
-                }));
+                }))
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 setUser(data.user);
                 setPosts(postsWithUsername);
                 setName(data.user.name);
