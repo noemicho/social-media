@@ -2,20 +2,25 @@ import { useState, useEffect } from "react";
 import { NavBar } from "../components/NavBar.jsx";
 import { Post } from "../components/Post"; // Importa o componente Post
 import "../styles/Profile.css";
-import dontShow from '../images/dont-show-password.png'
-import Show from '../images/show-password.png'
+import dontShow from '../images/dont-show-password.png';
+import Show from '../images/show-password.png';
 
 export function Profile() {
     const [user, setUser] = useState(null); 
     const [posts, setPosts] = useState([]); 
-
     const [modalOpen, setModalOpen] = useState(false); 
     const [name, setName] = useState(''); 
     const [username, setUsername] = useState(''); 
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState(''); 
-
     const [showPassword, setShowPassword] = useState(false);
+
+    // Estados para o modal de feedback
+    const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
+    const [feedbackMessage, setFeedbackMessage] = useState('');
+
+    // Estado para armazenar os dados originais do usuário
+    const [originalUserData, setOriginalUserData] = useState({});
 
     const handleCreatePost = async () => {
         const userId = localStorage.getItem("userId");
@@ -33,16 +38,22 @@ export function Profile() {
                 const data = await response.json();
                 const postsWithUsername = data.posts.map(post => ({
                     ...post,
-                    username: data.user.username // Adiciona o username diretamente ao post
+                    username: data.user.username
                 }));
                 setUser(data.user);
                 setPosts(postsWithUsername);
-
-                // Inicializa os valores do form - autopreenchimento
                 setName(data.user.name);
                 setUsername(data.user.username);
                 setEmail(data.user.email);
-                setPassword(data.user.password)
+                setPassword(data.user.password);
+
+                // Salva os dados originais do usuário
+                setOriginalUserData({
+                    name: data.user.name,
+                    username: data.user.username,
+                    email: data.user.email,
+                    password: data.user.password
+                });
             } else {
                 console.error("Erro ao obter perfil:", response.statusText);
             }
@@ -55,21 +66,27 @@ export function Profile() {
         handleCreatePost();
     }, []);
 
-    const handleModalOpen = () => {
-        setModalOpen(true);
-    };
+    const handleModalOpen = () => setModalOpen(true);
+    const handleModalClose = () => setModalOpen(false);
 
-    const handleModalClose = () => {
-        setModalOpen(false);
-    };
+    const handleShowPassword = () => setShowPassword(!showPassword);
 
-    const handleShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
-
-    const handleEditProfile = async () => {
-        //event.preventDefault()
+    const handleEditProfile = async (event) => {
+        event.preventDefault();
         const userId = localStorage.getItem("userId");
+
+        // Verifica se há alterações nos dados
+        if (
+            name === originalUserData.name &&
+            username === originalUserData.username &&
+            email === originalUserData.email &&
+            password === originalUserData.password
+        ) {
+            setFeedbackMessage("No changes !");
+            setFeedbackModalOpen(true);
+            handleModalClose();
+            return;
+        }
 
         try {
             const response = await fetch("http://localhost:3002/api/edit-profile", {
@@ -81,23 +98,28 @@ export function Profile() {
             });
 
             if (response.ok) {
-                const data = await response.json();
-                console.log("Perfil atualizado com sucesso:", data);
-                handleModalClose(); // Fecha o modal após salvar
-                setUser({ ...user, name, username, email });
-                
+                setFeedbackMessage("Profile updated successfully!");
+                // Atualiza os dados originais com os novos dados
+                setOriginalUserData({ name, username, email, password });
             } else {
-                console.error("Erro ao editar perfil:", response.statusText);
+                setFeedbackMessage("Failed to update profile.");
             }
         } catch (error) {
+            setFeedbackMessage("Error during the request.");
             console.error("Erro na requisição:", error);
+        } finally {
+            setFeedbackModalOpen(true); 
+            handleModalClose(); 
         }
     };
+
+    // Função para fechar o modal de feedback
+    const handleFeedbackModalClose = () => setFeedbackModalOpen(false);
 
     return (
         <>
             <div className="profile-container">
-                <div className="profile-header"> 
+                <div className="profile-header">
                     <h1 id="profile-title">
                         Profile
                         {user && <span id="profile-username"> ({user.username})</span>}
@@ -112,11 +134,11 @@ export function Profile() {
                     </div>
                 )}
 
-                <div className="posts-container-profile"> {/* Novo contêiner para a área dos posts */}
+                <div className="posts-container-profile">
                     <div className="posts-grid">
                         {posts.length > 0 ? (
                             posts.map((post) => (
-                                <Post key={post._id} post={post}/>
+                                <Post key={post._id} post={post} />
                             ))
                         ) : (
                             <div className="no-posts">
@@ -128,65 +150,71 @@ export function Profile() {
 
                 <NavBar />
             </div>
-            {/* Editar Perfil */}
+
+            {/* Modal de edição de perfil */}
             {modalOpen && (
                 <div className="modal-overlay">
-                            <div className="modal-content">
-                                <button onClick={handleModalClose} className="modal-close">×</button>
-                                <h2>Edit Profile</h2>
-                                <form >
-                                    <label>
-                                        Name:
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            value={name}
-                                            onChange={(e) => setName(e.target.value)}
+                    <div className="modal-content">
+                        <button onClick={handleModalClose} className="modal-close">×</button>
+                        <h2>Edit Profile</h2>
+                        <form onSubmit={handleEditProfile}>
+                            <label>
+                                Name:
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </label>
+                            <label>
+                                Username:
+                                <input
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                            </label>
+                            <label>
+                                E-mail:
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                            </label>
+                            <label>
+                                Password:
+                                <div className="password-container">
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={handleShowPassword}
+                                        className="show-password"
+                                    >
+                                        <img
+                                            src={showPassword ? Show : dontShow}
+                                            alt="Toggle Password Visibility"
                                         />
-                                    </label>
-                                    <label>
-                                        Username:
-                                        <input
-                                            type="text"
-                                            name="username"
-                                            value={username}
-                                            onChange={(e) => setUsername(e.target.value)}
-                                        />
-                                    </label>
-                                    <label>
-                                        E-mail:
-                                        <input
-                                            type="text"
-                                            name="email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                        />
-                                    </label>
-                                    <label>
-                                        Password:
-                                        <div className="password-container">
-                                            <input
-                                                type={showPassword ? "text" : "password"}
-                                                name="password"
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={handleShowPassword}
-                                                className="show-password"
-                                            >
-                                                <img
-                                                    src={showPassword ? Show : dontShow}
-                                                    alt="Toggle Password Visibility"
-                                                />
-                                            </button>
-                                        </div>
-                                    </label>
-                                    
-                                    <button type="submit" className="submit-edit-profile" onClick={handleEditProfile}>Save</button>
-                                </form>
-                            </div>
+                                    </button>
+                                </div>
+                            </label>
+                            <button type="submit">Save</button>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal de feedback */}
+            {feedbackModalOpen && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <p>{feedbackMessage}</p>
+                        <button onClick={handleFeedbackModalClose} className="modal-close">x</button>
+                    </div>
                 </div>
             )}
         </>
