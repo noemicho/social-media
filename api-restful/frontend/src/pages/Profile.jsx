@@ -137,24 +137,24 @@ export function Profile() {
                                     </label>
                                     <label>
                                         Password:
-                                        <input
-                                            type={showPassword ? "text" : "password"}
-                                            name="password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                        >
-                                        </input>
-                                        <button
-                                            type="button"
-                                            onClick={handleShowPassword}
-                                            className="show-password"
-                                        >
-                                            <img
-                                                src={showPassword ? Show : dontShow} 
+                                        <div className="password-container">
+                                            <input
+                                                type={showPassword ? "text" : "password"}
+                                                name="password"
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
                                             />
-                                        </button>
-                                    
-                                    
+                                            <button
+                                                type="button"
+                                                onClick={handleShowPassword}
+                                                className="show-password"
+                                            >
+                                                <img
+                                                    src={showPassword ? Show : dontShow}
+                                                    alt="Toggle Password Visibility"
+                                                />
+                                            </button>
+                                        </div>
                                     </label>
                                     
                                     <button type="submit-edit-profile">Save</button>

@@ -194,3 +194,27 @@
     font-size: 24px;
     color: #77a6fd;
 }
+
+/* Contêiner para o campo de senha e o botão de exibir senha */
+.password-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.password-container input {
+    flex: 1;
+    padding-right: 40px; /* Adiciona espaço para o botão */
+}
+
+.show-password {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.show-password img {
+    width: 20px;
+    height: 20px;
+}
