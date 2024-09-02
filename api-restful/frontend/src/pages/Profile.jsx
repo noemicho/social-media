@@ -63,8 +63,35 @@ export function Profile() {
         setModalOpen(false);
     };
 
-    const handleShowPassword= () => {
+    const handleShowPassword = () => {
         setShowPassword(!showPassword);
+    };
+
+    const handleEditProfile = async () => {
+        //event.preventDefault()
+        const userId = localStorage.getItem("userId");
+
+        try {
+            const response = await fetch("http://localhost:3002/api/edit-profile", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ userId, name, username, email, password }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Perfil atualizado com sucesso:", data);
+                handleModalClose(); // Fecha o modal após salvar
+                setUser({ ...user, name, username, email });
+                
+            } else {
+                console.error("Erro ao editar perfil:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Erro na requisição:", error);
+        }
     };
 
     return (
@@ -157,7 +184,7 @@ export function Profile() {
                                         </div>
                                     </label>
                                     
-                                    <button type="submit-edit-profile">Save</button>
+                                    <button type="submit" className="submit-edit-profile" onClick={handleEditProfile}>Save</button>
                                 </form>
                             </div>
                 </div>
