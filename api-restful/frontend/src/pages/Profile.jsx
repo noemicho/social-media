@@ -4,6 +4,7 @@ import { Post } from "../components/Post"; // Importa o componente Post
 import "../styles/Profile.css";
 import dontShow from '../images/dont-show-password.png';
 import Show from '../images/show-password.png';
+import { Navigate, useNavigate } from "react-router-dom";
 
 export function Profile() {
     const [user, setUser] = useState(null); 
@@ -21,6 +22,8 @@ export function Profile() {
 
     // Estado para armazenar os dados originais do usuário
     const [originalUserData, setOriginalUserData] = useState({});
+
+    const navigate = useNavigate();
 
     const handleCreatePost = async () => {
         const userId = localStorage.getItem("userId");
@@ -116,6 +119,11 @@ export function Profile() {
     // Função para fechar o modal de feedback
     const handleFeedbackModalClose = () => setFeedbackModalOpen(false);
 
+    const handleLogout = () => {
+        localStorage.removeItem("userId");
+        navigate('/');
+    }
+
     return (
         <>
             <div className="profile-container">
@@ -125,7 +133,7 @@ export function Profile() {
                         {user && <span id="profile-username"> ({user.username})</span>}
                     </h1>
                     <button id="edit-profile" onClick={handleModalOpen}>Edit Profile</button>
-                    <button id="logout">Logout</button>
+                    <button id="logout" onClick={handleLogout}>Logout</button>
                 </div>
 
                 {user && (
