@@ -81,3 +81,9 @@ button {
 .bin-icon {
     width: 30px; /* Ajuste o tamanho conforme necessário */
 }
+
+.username-link{
+    text-decoration: none;
+    color: black;
+    font-weight: 700;
+}

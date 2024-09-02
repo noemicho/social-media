@@ -4,10 +4,9 @@ import naoCurtiuIcon from '../images/nao-curtiu.png'
 import comentarioIcon from '../images/comentario.png'
 import binIcon from '../images/bin-icon.png'
 import { useState } from 'react';
+import { Link } from 'react-router-dom'; // Importa o Link
 
 export function Post({ post, user }) {
-    console.log('aaaaaaaaa ', user._id)
-    console.log('bbbbbbbbb ', localStorage.getItem('userId'))
     const [liked, setLiked] = useState(post.like.includes(localStorage.getItem('userId'))); // Verifica se o usuário já curtiu
     const [likeCount, setLikeCount] = useState(post.like.length); // Contagem inicial de curtidas
     const [commentCount, setCommentCount] = useState(post.comments.length); // Contagem inicial de comentários
@@ -27,7 +26,6 @@ export function Post({ post, user }) {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
                 setLiked(!liked); // Alterna o estado de curtida
                 setLikeCount(data.likesCount); // Atualiza a contagem de curtidas
             } else {
@@ -67,12 +65,13 @@ export function Post({ post, user }) {
         }
     };
 
-
     return (
         <div className='posicao'>
             <div className='post'>
                 <section className='perfil-post'>
-                    <p>{post.user?.username || post.username || "Perfil desconhecido"}</p> {/* Mostra o username */}
+                    <Link className='username-link' to={`/profile/${post.user?._id || post.userId}`}> {/* Link para o perfil do usuário */}
+                        <p>{post.user?.username || post.username || "Perfil desconhecido"}</p>
+                    </Link>
                 </section>
 
                 <section className='areaImagem'>
@@ -91,7 +90,6 @@ export function Post({ post, user }) {
                 </section>
 
                 <section className='delete-icon-container'>
-                        
                     {user._id === localStorage.getItem('userId') && (
                         <button onClick={handleDelete}>
                             <img className="bin-icon" src={binIcon} alt="delete post" />
