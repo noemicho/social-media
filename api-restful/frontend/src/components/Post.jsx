@@ -24,6 +24,7 @@ export function Post({ post }) {
 
             if (response.ok) {
                 const data = await response.json();
+                console.log(data)
                 setLiked(!liked); // Alterna o estado de curtida
                 setLikeCount(data.likesCount); // Atualiza a contagem de curtidas
             } else {
