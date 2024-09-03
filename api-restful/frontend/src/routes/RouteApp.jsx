@@ -5,6 +5,7 @@ import { Profile } from "../pages/Profile"
 import { Register } from "../pages/Register"
 import { AddPost }  from "../pages/AddPost"
 import { Profile2 } from "../pages/Profile2"
+import { Comments } from "../components/Comments"
 
 export function RouteApp(){
     return(
@@ -15,6 +16,8 @@ export function RouteApp(){
             <Route path='/profile' element={<Profile />}/>      
             <Route path='/addPost' element={<AddPost />}/>
             <Route path="/profile/:userId" element={<Profile2 />} />
+            <Route path='/comments' element={<Comments />}/>
+
         </Routes>
     )
 }
