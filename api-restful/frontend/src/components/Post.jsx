@@ -5,6 +5,7 @@ import comentarioIcon from '../images/comentario.png';
 import binIcon from '../images/bin-icon.png';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Comments } from './Comments';
 
 export function Post({ post, user }) {
     const [liked, setLiked] = useState(post.like.includes(localStorage.getItem('userId')));
@@ -132,24 +133,15 @@ export function Post({ post, user }) {
                     <p id="legenda">{post.description || "Legenda..."}</p>
                 </section>
 
-                {showComments && (
-                    <section className='comments-section'>
-                        {comments.map((comment) => (
-                            <div key={comment._id} className='comment'>
-                                <p><strong>{comment.user.username || "Usuário desconhecido"}</strong>: {comment.text}</p>
-                            </div>
-                        ))}
-                        <div className='add-comment'>
-                            <input
-                                type='text'
-                                value={newComment}
-                                onChange={(e) => setNewComment(e.target.value)}
-                                placeholder='Adicionar um comentário...'
-                            />
-                            <button onClick={handleAddComment}>Enviar</button>
-                        </div>
-                    </section>
-                )}
+                {showComments && 
+                <Comments 
+                    comments={comments} 
+                    postId={post._id} 
+                    onCommentAdded={(newComment) => {
+                        setComments((prevComments) => [...prevComments, newComment]);
+                        setCommentCount((prevCount) => prevCount + 1);
+                    }} 
+                />}
             </div>
         </div>
     );

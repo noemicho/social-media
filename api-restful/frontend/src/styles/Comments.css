@@ -1,97 +1,150 @@
-
-
-#comentarios{
-    background-color: rgb(236, 236, 236);
-    width: 30%;
-    height: 400px;
-    border-radius: 5px;
-     display: grid;
+.posicao {
+    display: flex;
     justify-content: center;
-    align-items: center;
-    grid-gap: 1px;
-   
-       
-    
-    
+    margin: 20px;
 }
 
-button{
-    background-color: rgb(211, 211, 211);
-    height: 40px;
-    width: 70px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.1s ease, transform 0.1s ease;
-    color: rgb(65, 65, 65);
+.post {
+    width: 100%;
+    max-width: 600px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 15px;
+    position: relative;
+}
+
+.perfil-post {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.username-link {
+    text-decoration: none;
+    color: #333;
+}
+
+.username-link p {
+    margin: 0;
     font-weight: bold;
 }
 
-
-button:active {
-    background-color: #5e5e5e; /* Muda a cor de fundo quando pressionado */
-    transform: scale(0.99); /* Leve redução de escala para dar efeito de clique */
-    color: white;
+.areaImagem {
+    text-align: center;
+    margin-bottom: 10px;
 }
 
+.post-image {
+    max-width: 100%;
+    border-radius: 8px;
+}
 
-
-
-
-.texto{
-    background-color: rgb(0, 0, 0);
-    color: rgb(116, 116, 116);
-    height: 60px;
-    border-radius: 5px;
-    width: 450px;
+.actions {
     display: flex;
     align-items: center;
-    margin: 10px 0px 0px 0px;
-    padding-left: 10px;
-    font-size: 14px;
-
+    margin-bottom: 10px;
 }
 
-.comentario{
+.like, .comment {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.like-count, .comment-count {
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+.delete-icon-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.bin-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+#legenda {
+    font-style: italic;
+    color: #666;
+}
+
+#comentarios {
+    margin-top: 10px;
+    max-height: 250px; /* Ajuste conforme necessário */
+    overflow-y: auto; /* Garante que a rolagem vertical apareça quando necessário */
+    display: flex;
+    flex-direction: column; /* Alinha os itens verticalmente */
+}
+
+.comentarios-conteudo {
+    flex: 1; /* Faz o conteúdo ocupar o espaço restante */
+    overflow-y: auto; /* Adiciona rolagem se necessário */
+    padding-right: 10px; /* Adiciona espaçamento para garantir que a rolagem não sobreponha o conteúdo */
+    box-sizing: border-box; /* Inclui o padding e a borda no cálculo da largura e altura do elemento */
+}
+
+.comentario {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    color: #333; /* Cor cinza escuro para o texto do comentário */
+    word-wrap: break-word; /* Quebra de linha para textos longos */
+}
+
+.perfil {
+    font-weight: bold;
+    margin: 0;
+}
+
+.texto {
+    margin: 5px 0 0;
+}
+.comentar {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    position: sticky; /* Fixa o formulário no fundo */
+    bottom: 0;
+    background: #fff; /* Fundo branco para o formulário */
+    padding: 10px;
+    border-top: 1px solid #ddd; /* Linha de separação entre os comentários e o formulário */
+}
+
+.comentar form {
+    display: flex;
     width: 100%;
 }
 
-.comentario section{
-    color: black;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 10px;
-    font-size: 15px;
+.comentar input {
+    flex: 1; /* Faz o input ocupar todo o espaço disponível */
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f1f1f1; /* Fundo cinza para o input */
+    margin-right: 10px; /* Espaçamento entre o input e o botão */
 }
 
-.comentar{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-  
-    
-
+.comentar button {
+    padding: 8px 15px;
+    border: none;
+    background-color: #0056b3; /* Azul escuro para o botão */
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-input{
-    background-color: white;
-    color: rgb(100, 100, 100);
-    height: 40px;
-    border-radius: 5px;
-    width: 350px;
-    border: 1px solid rgb(204, 204, 204);
-    margin-right: 25px;
+.comentar button:hover {
+    background-color: #004080; /* Azul escuro mais profundo para o hover */
 }
 
-.perfil{
-    color: rgb(155, 155, 155);
-    font-weight: bold;
-    font-size: 11px;
-}
 
-input:focus {
-    border-color: #a5a5a5; /* Altera a cor da borda ao focar */
-    box-shadow: 0 0 5px rgba(94, 94, 94, 0.288); /* Adiciona uma sombra */
-    outline: none; /* Remove o outline padrão */
+.comentar button:hover {
+    background-color: #004080; /* Azul escuro mais profundo para o hover */
 }
-

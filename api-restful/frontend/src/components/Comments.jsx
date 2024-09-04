@@ -9,10 +9,10 @@ export function Comments({ comments, postId, onCommentAdded }) {
     };
 
     const handleCommentSubmit = async (e) => {
-        e.preventDefault(); // Impede o comportamento padrão do formulário
-
-        const userId = localStorage.getItem('userId'); // Obtém o ID do usuário
-
+        e.preventDefault();
+    
+        const userId = localStorage.getItem('userId');
+    
         try {
             const response = await fetch(`http://localhost:3002/api/post/${postId}/comment`, {
                 method: 'POST',
@@ -21,14 +21,13 @@ export function Comments({ comments, postId, onCommentAdded }) {
                 },
                 body: JSON.stringify({ user: userId, text: newComment }),
             });
-
+    
             if (response.ok) {
                 const data = await response.json();
                 console.log('Comentário adicionado:', data);
-                setNewComment(''); // Limpa o campo de comentário após enviar
+                setNewComment('');
                 
-                // Chama a função de callback para atualizar a lista de comentários
-                onCommentAdded(data.comment); // Assume que o backend retorna o novo comentário
+                onCommentAdded(data.comment); // Passa o novo comentário para o callback
             } else {
                 console.error('Erro ao adicionar comentário:', response.statusText);
             }
@@ -36,19 +35,22 @@ export function Comments({ comments, postId, onCommentAdded }) {
             console.error('Erro na requisição de comentário:', error);
         }
     };
+    
 
     return (
         <div>
             <section id="comentarios">
-                {comments.map((comment) => (
-                    <section key={comment._id} className="comentario">
-                        <section>
-                            <p className="perfil">{comment.user.username || "Usuário desconhecido"}</p> {/* Exibe o nome do usuário */}
+                <div className="comentarios-conteudo">
+                    {comments.map((comment) => (
+                        <section key={comment._id} className="comentario">
+                            <section>
+                                <p className="perfil">{comment.user.username || "Usuário desconhecido"}</p>
+                            </section>
+                            <p className="texto">{comment.text}</p>
                         </section>
-                        <p className="texto">{comment.text}</p>
-                    </section>
-                ))}
-    
+                    ))}
+                </div>
+                
                 <section className="comentar">
                     <form onSubmit={handleCommentSubmit}>
                         <input 
@@ -62,6 +64,7 @@ export function Comments({ comments, postId, onCommentAdded }) {
                     </form>
                 </section>
             </section>
+
         </div>
     );
     
