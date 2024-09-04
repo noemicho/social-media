@@ -123,7 +123,10 @@ export function Profile() {
     };
 
     // Função para fechar o modal de feedback
-    const handleFeedbackModalClose = () => setFeedbackModalOpen(false);
+    const handleFeedbackModalClose = () => {
+        setFeedbackModalOpen(false);
+        window.location.reload();
+    }
 
     const handleLogout = () => {
         localStorage.removeItem("userId");

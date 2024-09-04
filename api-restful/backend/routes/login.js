@@ -1,10 +1,29 @@
 import express from 'express';
-import loginController from '../controllers/loginController.js';
+import SocialMediaFacade from '../Facade/SocialMediaFacade.js';
+import userController from '../controllers/userController.js';
+import postController from '../controllers/postController.js';
+import commentController from '../controllers/commentController.js';
+import likeController from '../controllers/likeController.js';
+import profileController from '..//controllers/profileController.js';
+import editProfileController from '..//controllers/editProfileController.js';
+import registerController from '..//controllers/registerController.js';
+import loginController from '..//controllers/loginController.js';
 
 const router = express.Router();
 
-// Define a rota /login e usa o controlador para processar a requisição POST
-//router.post('/login', loginController.login);
-router.route('/login').post((request, response) =>loginController.login(request, response))
+const socialMediaFacade = new SocialMediaFacade(
+    userController,
+    registerController,
+    loginController,
+    postController,
+    commentController,
+    likeController,
+    profileController,
+    editProfileController
+);
+
+router.post('/login', (req, res) => {
+    socialMediaFacade.loginUser(req, res);
+});
 
 export default router;

@@ -1,12 +1,50 @@
 import express from 'express';
+import SocialMediaFacade from '../Facade/SocialMediaFacade.js';
+import userController from '../controllers/userController.js';
+import postController from '../controllers/postController.js';
+import commentController from '../controllers/commentController.js';
+import likeController from '../controllers/likeController.js';
+import profileController from '../controllers/profileController.js';
+import editProfileController from '../controllers/editProfileController.js';
+import registerController from '../controllers/registerController.js';
+import loginController from '../controllers/loginController.js';
+
 const router = express.Router();
 
-import userController from '../controllers/userController.js';
+const socialMediaFacade = new SocialMediaFacade(
+    userController,
+    registerController,
+    loginController,
+    postController,
+    commentController,
+    likeController,
+    profileController,
+    editProfileController
+);
 
-router.route('/user').post((request, response) => userController.create(request, response))
-router.route('/user').get((request, response) => userController.getAll(request, response))
-router.route('/user/:id').get((request, response) => userController.get(request, response))
-router.route('/user/:id').delete((request, response) => userController.delete(request, response))
-router.route('/user/:id').patch((request, response) => userController.update(request, response))
+router.post('/users', (req, res) => {
+    const result = socialMediaFacade.registerUser(req, res);
+    //res.json(result);
+});
 
-export default router
+router.get('/users', (req, res) => {
+    const result = socialMediaFacade.getAllUsers(req, res);
+    //res.json(result);
+});
+
+router.get('/users/:id', (req, res) => {
+    const result = socialMediaFacade.getUserById(req, res);
+    //res.json(result);
+});
+
+router.delete('/users/:id', (req, res) => {
+    const result = socialMediaFacade.deleteUser(req, res);
+    //res.json(result);
+});
+
+router.patch('/users/:id', (req, res) => {
+    const result = socialMediaFacade.updateUser(req, res);
+    //res.json(result);
+});
+
+export default router;
