@@ -1,3 +1,4 @@
+/* Estilo geral do post */
 .posicao {
     display: flex;
     justify-content: center;
@@ -10,7 +11,7 @@
     padding: 20px;
     max-width: 500px;
     background-color: #fff;
-    position: relative; /* Cria um contexto de posicionamento para os elementos filhos */
+    position: relative;
 }
 
 .perfil-post {
@@ -31,7 +32,7 @@
 .actions {
     display: flex;
     align-items: center;
-    margin-top: 10px; /* Ajusta o espaço acima dos ícones de like e comentário */
+    margin-top: 10px;
 }
 
 .actions button {
@@ -61,28 +62,27 @@ button {
     color: black;
     font-weight: 800;
     margin-right: 10px;
-    font-size: 16px; 
+    font-size: 16px;
 }
 
 .comment-count {
     color: black;
     font-weight: 800;
     margin-right: 10px;
-    font-size: 16px; 
+    font-size: 16px;
 }
 
-/* Adiciona a classe para o ícone da lixeira */
 .delete-icon-container {
-    position: absolute; /* Posiciona a lixeira de forma absoluta dentro do post */
-    top: 10px; /* Distância do topo do post */
-    right: 10px; /* Distância da borda direita do post */
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .bin-icon {
-    width: 30px; /* Ajuste o tamanho conforme necessário */
+    width: 30px;
 }
 
-.username-link{
+.username-link {
     text-decoration: none;
     color: black;
     font-weight: 700;
@@ -96,14 +96,18 @@ button {
 }
 
 .comments {
-    max-height: 200px; /* Limita a altura da área de comentários com scroll */
-    overflow-y: auto; /* Adiciona barra de rolagem se necessário */
+    max-height: 200px;
+    overflow-y: auto;
     margin-bottom: 10px;
 }
 
 .comments p {
     margin-bottom: 8px;
     color: black;
+    word-wrap: break-word; /* Quebra palavras longas */
+    white-space: pre-wrap; /* Quebra as linhas conforme necessário */
+    position: relative; /* Para posicionar o botão de excluir corretamente */
+    padding-right: 60px; /* Espaço para o botão de excluir */
 }
 
 .comments p strong {
@@ -111,7 +115,27 @@ button {
     color: black;
 }
 
-/* Estilização do formulário de comentário */
+/* Estilo para o botão de excluir nos comentários */
+.excluir-comentario {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: rgb(187, 4, 4);
+    font-size: 14px;
+    font-weight: 600;
+    background-color: #ffb3b3;
+    border-radius: 10px;
+    padding: 2px 5px;
+}
+
+.excluir-comentario:hover {
+    color: darkred;
+}
+
 .comment-form {
     display: flex;
     align-items: center;
@@ -138,23 +162,4 @@ button {
 
 .comment-submit:hover {
     background-color: #0056b3;
-}
-
-
-/* Estilo para o botão de excluir nos comentários */
-.excluir-comentario {
-    position: absolute;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    color: rgb(187, 4, 4);
-    font-size: 14px;
-    font-weight: 600;
-    background-color: #ffb3b3;
-    border-radius: 10px;
-    margin-left: 5px;
-}
-
-.excluir-comentario:hover {
-    color: darkred; /* Muda a cor ao passar o mouse */
 }
