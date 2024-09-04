@@ -197,10 +197,10 @@ export function Post({ post, user }) {
                                 type="text" 
                                 value={newComment} 
                                 onChange={handleCommentChange} 
-                                placeholder="Adicione um comentário..." 
+                                placeholder="Comment here..." 
                                 className='comment-input'
                             />
-                            <button type="submit" className='comment-submit'>Comentar</button>
+                            <button type="submit" className='comment-submit'>Send</button>
                         </form>
                     </section>
                 )}
