@@ -3,6 +3,7 @@ import curtiuIcon from '../images/curtiu.png';
 import naoCurtiuIcon from '../images/nao-curtiu.png';
 import comentarioIcon from '../images/comentario.png';
 import binIcon from '../images/bin-icon.png';
+import binIconComment from '../images/bin-icon.png';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Comments } from './Comments';
@@ -109,6 +110,35 @@ export function Post({ post, user }) {
         }
     };
 
+    const handleDeleteComment = async (commentId) => {
+        const postId = post._id;
+    
+        try {
+            const response = await fetch(`http://localhost:3002/api/post/${postId}/comment/${commentId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`, // Se você estiver usando tokens de autenticação
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Erro ao deletar comentário');
+            }
+    
+            const data = await response.json();
+            console.log(data.msg);
+    
+            // Atualiza a lista de comentários no estado
+            setComments(comments.filter(comment => comment._id !== commentId));
+            setCommentCount(commentCount - 1);
+    
+        } catch (error) {
+            console.error('Erro ao deletar comentário:', error);
+        }
+    };
+    
+
     return (
         <div className='posicao'>
             <div className='post'>
@@ -155,7 +185,11 @@ export function Post({ post, user }) {
                             {comments.map((comment) => (
                                 <p key={comment._id}>
                                     <strong>{comment.username || "Unknow user"}</strong>: {comment.text}
+                                    {comment.user === localStorage.getItem('userId') && ( // Mostra o botão apenas se o comentário for do usuário logado
+                                    <button onClick={() => handleDeleteComment(comment._id)} className='excluir-comentario'>Excluir</button>
+                                )}
                                 </p>
+                                
                             ))}
                         </div>
                         <form onSubmit={handleCommentSubmit} className='comment-form'>

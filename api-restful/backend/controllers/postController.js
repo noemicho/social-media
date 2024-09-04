@@ -156,6 +156,29 @@ const postController = {
             response.status(500).json({ msg: 'Erro ao adicionar comentário.' });
         }
     },
+
+    deleteComment: async (request, response) => {
+        try {
+            const { postId, commentId } = request.params;
+
+            // Encontra o post pelo ID e remove o comentário com o ID especificado
+            const post = await Post.findByIdAndUpdate(
+                postId,
+                { $pull: { comments: { _id: commentId } } }, // `$pull` remove o comentário com o `_id` igual a `commentId`
+                { new: true } // Retorna o documento atualizado
+            );
+
+            if (!post) {
+                return response.status(404).json({ msg: 'Post não encontrado.' });
+            }
+
+            response.status(200).json({ msg: 'Comentário deletado com sucesso!', post });
+
+        } catch (error) {
+            console.error('Erro ao deletar comentário:', error);
+            response.status(500).json({ msg: 'Erro ao deletar comentário.' });
+        }
+    },
     
 };
 

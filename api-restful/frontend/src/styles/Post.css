@@ -139,3 +139,22 @@ button {
 .comment-submit:hover {
     background-color: #0056b3;
 }
+
+
+/* Estilo para o botão de excluir nos comentários */
+.excluir-comentario {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: rgb(187, 4, 4);
+    font-size: 14px;
+    font-weight: 600;
+    background-color: #ffb3b3;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+.excluir-comentario:hover {
+    color: darkred; /* Muda a cor ao passar o mouse */
+}
