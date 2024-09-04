@@ -1,16 +1,19 @@
 import '../styles/Post.css';
-import curtiuIcon from '../images/curtiu.png'
-import naoCurtiuIcon from '../images/nao-curtiu.png'
-import comentarioIcon from '../images/comentario.png'
-import binIcon from '../images/bin-icon.png'
+import curtiuIcon from '../images/curtiu.png';
+import naoCurtiuIcon from '../images/nao-curtiu.png';
+import comentarioIcon from '../images/comentario.png';
+import binIcon from '../images/bin-icon.png';
 import { useState } from 'react';
-import { Link } from 'react-router-dom'; // Importa o Link
+import { Link } from 'react-router-dom';
 
 export function Post({ post, user }) {
-    const [liked, setLiked] = useState(post.like.includes(localStorage.getItem('userId'))); // Verifica se o usuário já curtiu
-    const [likeCount, setLikeCount] = useState(post.like.length); // Contagem inicial de curtidas
-    const [commentCount, setCommentCount] = useState(post.comments.length); // Contagem inicial de comentários
-    
+    const [liked, setLiked] = useState(post.like.includes(localStorage.getItem('userId')));
+    const [likeCount, setLikeCount] = useState(post.like.length);
+    const [commentCount, setCommentCount] = useState(post.comments.length);
+    const [newComment, setNewComment] = useState('');
+    const [showComments, setShowComments] = useState(false);
+    const [comments, setComments] = useState(post.comments); // Estado para comentários
+
     const handleLike = async () => {
         const userId = localStorage.getItem('userId');
         const postId = post._id;
@@ -26,8 +29,8 @@ export function Post({ post, user }) {
 
             if (response.ok) {
                 const data = await response.json();
-                setLiked(!liked); // Alterna o estado de curtida
-                setLikeCount(data.likesCount); // Atualiza a contagem de curtidas
+                setLiked(!liked);
+                setLikeCount(data.likesCount);
             } else {
                 console.error('Erro ao curtir o post:', response.statusText);
             }
@@ -36,9 +39,33 @@ export function Post({ post, user }) {
         }
     };
 
-    const handleComment = () => {
-        console.log("Comentário adicionado!");
-        // Implementar lógica de comentar
+    const handleAddComment = async () => {
+        const userId = localStorage.getItem('userId');
+        const postId = post._id;
+
+        try {
+            const response = await fetch(`http://localhost:3002/api/post/${postId}/comment`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user: userId, text: newComment }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Comentário adicionado:', data);
+
+                // Atualiza o estado local com o novo comentário
+                setComments(data.post.comments); // Atualiza o estado de comentários com a resposta do servidor
+                setCommentCount(commentCount + 1);
+                setNewComment('');
+            } else {
+                console.error('Erro ao adicionar comentário:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Erro na requisição de adicionar comentário:', error);
+        }
     };
 
     const handleDelete = async () => {
@@ -50,7 +77,7 @@ export function Post({ post, user }) {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`, // Se necessário
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
             });
 
@@ -69,24 +96,28 @@ export function Post({ post, user }) {
         <div className='posicao'>
             <div className='post'>
                 <section className='perfil-post'>
-                    <Link className='username-link' to={`/profile/${post.user?._id || post.userId}`}> {/* Link para o perfil do usuário */}
+                    <Link className='username-link' to={`/profile/${post.user?._id || post.userId}`}>
                         <p>{post.user?.username || post.username || "Perfil desconhecido"}</p>
                     </Link>
                 </section>
 
                 <section className='areaImagem'>
-                    <img src={post.image} alt="Postagem" className='post-image' /> {/* Mostra a imagem do post */}
+                    <img src={post.image} alt="Postagem" className='post-image' />
                 </section>
 
                 <section className='actions'>
-                    <button onClick={handleLike}><img
+                    <button onClick={handleLike}>
+                        <img
                             className="like"
-                            src={liked ? curtiuIcon : naoCurtiuIcon} // Mostra o ícone de acordo com o estado
+                            src={liked ? curtiuIcon : naoCurtiuIcon}
                             alt={liked ? 'Curtido' : 'Não curtido'}
-                    /></button>
-                    <span className='like-count'>{likeCount}</span> {/* Mostra a contagem de curtidas */}
-                    <button onClick={handleComment}><img className='comment' src={comentarioIcon}/></button>
-                    <span className='comment-count'>{commentCount}</span> {/* Mostra a contagem de comentários */}
+                        />
+                    </button>
+                    <span className='like-count'>{likeCount}</span>
+                    <button onClick={() => setShowComments(!showComments)}>
+                        <img className='comment' src={comentarioIcon} alt="Comentários" />
+                    </button>
+                    <span className='comment-count'>{commentCount}</span>
                 </section>
 
                 <section className='delete-icon-container'>
@@ -98,8 +129,27 @@ export function Post({ post, user }) {
                 </section>
 
                 <section>
-                    <p id="legenda">{post.description || "Legenda..."}</p> {/* Mostra a descrição do post */}
+                    <p id="legenda">{post.description || "Legenda..."}</p>
                 </section>
+
+                {showComments && (
+                    <section className='comments-section'>
+                        {comments.map((comment) => (
+                            <div key={comment._id} className='comment'>
+                                <p><strong>{comment.user.username || "Usuário desconhecido"}</strong>: {comment.text}</p>
+                            </div>
+                        ))}
+                        <div className='add-comment'>
+                            <input
+                                type='text'
+                                value={newComment}
+                                onChange={(e) => setNewComment(e.target.value)}
+                                placeholder='Adicionar um comentário...'
+                            />
+                            <button onClick={handleAddComment}>Enviar</button>
+                        </div>
+                    </section>
+                )}
             </div>
         </div>
     );

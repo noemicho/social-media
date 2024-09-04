@@ -1,4 +1,4 @@
-import Post from '../models/Post.js'
+import Post from '../models/Post.js';
 import User from '../models/User.js'; // Importa o modelo de User para buscar o ObjectId
 
 const postController = {
@@ -54,18 +54,17 @@ const postController = {
         }
     },
     getAll: async (request, response) => {
-        try{
+        try {
             // Obtém todos os posts e popula o campo 'user' com os dados do usuário correspondente
             const postAll = await Post.find().populate('user');
             response.status(200).json(postAll);
-
-        }catch (error){
-            console.log(error)
+        } catch (error) {
+            console.log(error);
             response.status(500).json({ msg: 'Erro ao obter os posts.' });
         }
     },
     get: async (request, response) => {
-        try{
+        try {
             const postId = request.params.id;
 
             // Obtém o post pelo ID e popula o campo 'user' com os dados do usuário correspondente
@@ -77,13 +76,13 @@ const postController = {
 
             response.status(200).json(post);
 
-        }catch (error){
-            console.log(error)
+        } catch (error) {
+            console.log(error);
             response.status(500).json({ msg: 'Erro ao obter o post.' });
         }
     },
     delete: async (request, response) => {
-        try{
+        try {
             const postId = request.params.id;
 
             // Deleta o post pelo ID
@@ -95,13 +94,13 @@ const postController = {
 
             response.status(200).json({ msg: 'Post deletado com sucesso.' });
 
-        }catch (error){
-            console.log(error)
+        } catch (error) {
+            console.log(error);
             response.status(500).json({ msg: 'Erro ao deletar o post.' });
         }
     },
     update: async (request, response) => {
-        try{
+        try {
             const postId = request.params.id;
             const postUpdates = request.body;
 
@@ -114,11 +113,45 @@ const postController = {
 
             response.status(200).json({ post: updatedPost, msg: 'Post atualizado com sucesso!' });
             
-        }catch (error){
-            console.log(error)
+        } catch (error) {
+            console.log(error);
             response.status(500).json({ msg: 'Erro ao atualizar o post.' });
         }
-    }
+    },
+    
+    // Adiciona um comentário ao post
+    addComment: async (request, response) => {
+        try {
+            const postId = request.params.id;
+            const { user, text } = request.body;
+    
+            const usuario = await User.findById(user);
+            if (!usuario) {
+                return response.status(404).json({ msg: 'Usuário não encontrado.' });
+            }
+    
+            // Cria o comentário
+            const comment = {
+                user: usuario._id,
+                text,
+            };
+    
+            // Adiciona o comentário ao post
+            const post = await Post.findByIdAndUpdate(postId, { $push: { comments: comment } }, { new: true })
+                .populate('comments.user'); // Popula o usuário do comentário
+    
+            if (!post) {
+                return response.status(404).json({ msg: 'Post não encontrado.' });
+            }
+    
+            response.status(200).json({ post, comment }); // Retorna o post atualizado e o novo comentário
+    
+        } catch (error) {
+            console.error('Erro ao adicionar comentário:', error);
+            response.status(500).json({ msg: 'Erro ao adicionar comentário.' });
+        }
+    },
+    
 }
 
-export default postController
+export default postController;

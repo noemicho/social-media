@@ -87,3 +87,9 @@ button {
     color: black;
     font-weight: 700;
 }
+
+.comment{
+    color: black;
+    width: 50%;
+    font-size: 14px;
+}
