@@ -1,7 +1,15 @@
-.body-home{
+.body-home {
     padding-bottom: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centraliza verticalmente */
+    min-height: 100vh;
+    padding-top: 20px; /* Espaçamento superior */
+    box-sizing: border-box; /* Inclui padding na altura total */
 }
 
-.carregando{
+
+.carregando {
     text-align: center;
 }

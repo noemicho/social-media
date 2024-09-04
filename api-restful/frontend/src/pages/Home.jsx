@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavBar } from "../components/NavBar";
 import { Post } from "../components/Post"; // Importa o componente Post
 import "../styles/Home.css";
+import logo from '../images//logo-wow.png'
 
 export function Home() {
     const [posts, setPosts] = useState([]);
@@ -30,7 +31,7 @@ export function Home() {
     return (
         <>
             <div className="body-home">
-                <h1 className="title">Home</h1>
+                <img src={logo} className="title"/>
                     
                 {loading ? (
                     <p className="carregando">Loading posts...</p>
