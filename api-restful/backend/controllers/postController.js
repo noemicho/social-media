@@ -32,6 +32,7 @@ const postController = {
                     }
                     return {
                         user: user._id, // Acessa o _id do usuário encontrado
+                        username: user.username, // Adiciona o username do usuário
                         text: comment.text,
                     };
                 })
@@ -53,6 +54,7 @@ const postController = {
             response.status(500).json({ msg: 'Erro ao criar o post.' });
         }
     },
+    
     getAll: async (request, response) => {
         try {
             // Obtém todos os posts e popula o campo 'user' com os dados do usuário correspondente
@@ -63,6 +65,7 @@ const postController = {
             response.status(500).json({ msg: 'Erro ao obter os posts.' });
         }
     },
+    
     get: async (request, response) => {
         try {
             const postId = request.params.id;
@@ -81,6 +84,7 @@ const postController = {
             response.status(500).json({ msg: 'Erro ao obter o post.' });
         }
     },
+    
     delete: async (request, response) => {
         try {
             const postId = request.params.id;
@@ -99,6 +103,7 @@ const postController = {
             response.status(500).json({ msg: 'Erro ao deletar o post.' });
         }
     },
+    
     update: async (request, response) => {
         try {
             const postId = request.params.id;
@@ -124,34 +129,34 @@ const postController = {
         try {
             const postId = request.params.id;
             const { user, text } = request.body;
-    
+
             const usuario = await User.findById(user);
             if (!usuario) {
                 return response.status(404).json({ msg: 'Usuário não encontrado.' });
             }
-    
-            // Cria o comentário
+
+            // Cria o comentário com username
             const comment = {
                 user: usuario._id,
+                username: usuario.username, // Preenche o username aqui
                 text,
             };
-    
+
             // Adiciona o comentário ao post
-            const post = await Post.findByIdAndUpdate(postId, { $push: { comments: comment } }, { new: true })
-                .populate('comments.user'); // Popula o usuário do comentário
-    
+            const post = await Post.findByIdAndUpdate(postId, { $push: { comments: comment } }, { new: true });
+
             if (!post) {
                 return response.status(404).json({ msg: 'Post não encontrado.' });
             }
-    
-            response.status(200).json({ post, comment }); // Retorna o post atualizado e o novo comentário
-    
+
+            response.status(200).json({ post, comment });
+
         } catch (error) {
             console.error('Erro ao adicionar comentário:', error);
             response.status(500).json({ msg: 'Erro ao adicionar comentário.' });
         }
     },
     
-}
+};
 
 export default postController;

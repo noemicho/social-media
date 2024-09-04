@@ -26,6 +26,10 @@ const postSchema = new mongoose.Schema({
             ref: 'User',
             required: true
         },
+        username: {
+            type: String, // Novo campo para armazenar o username
+            required: true
+        },
         text: {
             type: String, // Texto do comentário
             required: true

@@ -88,8 +88,54 @@ button {
     font-weight: 700;
 }
 
-.comment{
+/* Estilização da seção de comentários */
+.comments-section {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.comments {
+    max-height: 200px; /* Limita a altura da área de comentários com scroll */
+    overflow-y: auto; /* Adiciona barra de rolagem se necessário */
+    margin-bottom: 10px;
+}
+
+.comments p {
+    margin-bottom: 8px;
     color: black;
-    width: 50%;
+}
+
+.comments p strong {
+    font-weight: bold;
+    color: black;
+}
+
+/* Estilização do formulário de comentário */
+.comment-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.comment-input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
     font-size: 14px;
+}
+
+.comment-submit {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.comment-submit:hover {
+    background-color: #0056b3;
 }

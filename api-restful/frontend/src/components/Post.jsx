@@ -40,35 +40,6 @@ export function Post({ post, user }) {
         }
     };
 
-    const handleAddComment = async () => {
-        const userId = localStorage.getItem('userId');
-        const postId = post._id;
-
-        try {
-            const response = await fetch(`http://localhost:3002/api/post/${postId}/comment`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ user: userId, text: newComment }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Comentário adicionado:', data);
-
-                // Atualiza o estado local com o novo comentário
-                setComments(data.post.comments); // Atualiza o estado de comentários com a resposta do servidor
-                setCommentCount(commentCount + 1);
-                setNewComment('');
-            } else {
-                console.error('Erro ao adicionar comentário:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Erro na requisição de adicionar comentário:', error);
-        }
-    };
-
     const handleDelete = async () => {
         const userId = localStorage.getItem('userId');
         const postId = post._id;
@@ -90,6 +61,51 @@ export function Post({ post, user }) {
             }
         } catch (error) {
             console.error('Erro na requisição de exclusão:', error);
+        }
+    };
+
+    const handleCommentChange = (e) => {
+        setNewComment(e.target.value);
+    };
+
+    const handleCommentSubmit = async (e) => {
+        e.preventDefault();
+
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+            console.log('userId não encontrado no localStorage');
+            console.log(userId)
+            return; // Ou tome alguma ação de fallback
+        }else{
+            console.log('peguei id do usuario tentando comentar: ', userId);
+
+        }
+
+        const postId = post._id;
+
+        try {
+            const response = await fetch(`http://localhost:3002/api/post/${postId}/comment`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user: userId, // Substitua pelo ID do usuário autenticado
+                    text: newComment,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao adicionar comentário');
+            }
+
+            const data = await response.json();
+            setComments([...comments, data.comment]);
+            setCommentCount(commentCount + 1);
+            setNewComment('');
+
+        } catch (error) {
+            console.error('Erro ao adicionar comentário:', error);
         }
     };
 
@@ -133,15 +149,27 @@ export function Post({ post, user }) {
                     <p id="legenda">{post.description || "Legenda..."}</p>
                 </section>
 
-                {showComments && 
-                <Comments 
-                    comments={comments} 
-                    postId={post._id} 
-                    onCommentAdded={(newComment) => {
-                        setComments((prevComments) => [...prevComments, newComment]);
-                        setCommentCount((prevCount) => prevCount + 1);
-                    }} 
-                />}
+                {showComments && (
+                    <section className='comments-section'>
+                        <div className='comments'>
+                            {comments.map((comment) => (
+                                <p key={comment._id}>
+                                    <strong>{comment.username || "Unknow user"}</strong>: {comment.text}
+                                </p>
+                            ))}
+                        </div>
+                        <form onSubmit={handleCommentSubmit} className='comment-form'>
+                            <input 
+                                type="text" 
+                                value={newComment} 
+                                onChange={handleCommentChange} 
+                                placeholder="Adicione um comentário..." 
+                                className='comment-input'
+                            />
+                            <button type="submit" className='comment-submit'>Comentar</button>
+                        </form>
+                    </section>
+                )}
             </div>
         </div>
     );
