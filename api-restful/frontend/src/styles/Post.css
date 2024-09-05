@@ -72,25 +72,25 @@ button {
     font-size: 16px;
 }
 
-.delete-icon-container {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.bin-icon {
-    width: 30px;
-}
-
+.delete-icon-container,
 .edit-icon-container {
     position: absolute;
     top: 10px;
-    left: 240px;
 }
 
-.edit-post-icon{
-    width: 25px; 
+.delete-icon-container {
+    right: 10px; /* Mantém a lixeira no canto direito */
 }
+
+.edit-icon-container {
+    right: 50px; /* Posiciona o ícone de edição à esquerda da lixeira */
+}
+
+.bin-icon, .edit-post-icon {
+    width: 25px;
+    cursor: pointer;
+}
+
 
 .username-link {
     text-decoration: none;
