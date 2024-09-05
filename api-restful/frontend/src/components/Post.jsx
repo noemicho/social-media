@@ -4,7 +4,7 @@ import naoCurtiuIcon from '../images/nao-curtiu.png';
 import comentarioIcon from '../images/comentario.png';
 import binIcon from '../images/bin-icon.png';
 //import binIconComment from '../images/bin-icon.png';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import editPostIcon from '../images/edit-post-icon.png'
 import PostEdit from '../components/PostEdit'
@@ -15,10 +15,13 @@ export function Post({ post, user }) {
     const [commentCount, setCommentCount] = useState(post.comments.length);
     const [newComment, setNewComment] = useState('');
     const [showComments, setShowComments] = useState(false);
-    const [comments, setComments] = useState(post.comments); // Estado para comentários
+    const [comments, setComments] = useState(post.comments); // estado para comentarios
     const [showEditModal, setShowEditModal] = useState(false); // ver se mostra modal de edit ou nao
     const [editedDescription, setEditedDescription] = useState(post.description); // edita descriçao do post
+    const [showLikes, setShowLikes] = useState(false); // estado para mostrar ou ocultar a lista de likes
+    const [likeUsernames, setLikeUsernames] = useState([]); // Estado para armazenar usernames dos likes
 
+    
     const handleLike = async () => {
         const userId = localStorage.getItem('userId');
         const postId = post._id;
@@ -175,6 +178,34 @@ export function Post({ post, user }) {
         setEditedDescription(e.target.value);
     };
 
+    const fetchUsernames = async () => {
+        try {
+            const response = await fetch('http://localhost:3002/api/usernames', {  // Certifique-se que a rota está correta
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userIds: post.like }),  // Envia o array de IDs diretamente
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                setLikeUsernames(data.usernames);  // Recebe o array de usernames da resposta
+            } else {
+                console.error('Erro ao buscar usernames:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Erro na requisição de usernames:', error);
+        }
+    };
+    
+
+    useEffect(() => {
+        if (showLikes) {
+            fetchUsernames();
+        }
+    }, [showLikes]);
+
     return (
         <div className='posicao'>
             <div className='post'>
@@ -189,7 +220,11 @@ export function Post({ post, user }) {
                 </section>
 
                 <section className='actions'>
-                    <button onClick={handleLike}>
+                    <button 
+                        onClick={handleLike}
+                        onMouseEnter={() => setShowLikes(true)}
+                        onMouseLeave={() => setShowLikes(false)}
+                    >
                         <img
                             className="like"
                             src={liked ? curtiuIcon : naoCurtiuIcon}
@@ -202,6 +237,17 @@ export function Post({ post, user }) {
                     </button>
                     <span className='comment-count'>{commentCount}</span>
                 </section>
+
+                {showLikes && likeUsernames.length > 0 && (
+                <div className='likes-popup'>
+                    <ul>
+                        {likeUsernames.map((username, index) => (
+                            <li key={index}>{username}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
 
                 <section className='delete-icon-container'>
                     {user._id === localStorage.getItem('userId') && (

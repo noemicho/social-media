@@ -84,6 +84,10 @@ class SocialMediaFacade {
     editUserProfile(req, res) {
         return this.editProfileController.edit(req, res);
     }
+
+    getUsernamesByIds(req, res){
+        return this.userController.getUsernamesByIds(req, res)
+    }
 }
 
 export default SocialMediaFacade;

@@ -116,8 +116,8 @@ button {
     color: black;
     word-wrap: break-word; /* Quebra palavras longas */
     white-space: pre-wrap; /* Quebra as linhas conforme necessário */
-    position: relative; /* Para posicionar o botão de excluir corretamente */
-    padding-right: 60px; /* Espaço para o botão de excluir */
+    position: relative;
+    padding-right: 60px; 
 }
 
 .comments p strong {
@@ -232,4 +232,22 @@ button {
 
 .cancel-button:hover {
     background-color: #999;
+}
+
+.likes-popup {
+    background-color: white; 
+    padding: 10px;
+    z-index: 100;
+}
+
+.likes-popup ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.likes-popup li {
+    margin-bottom: 5px;
+    color: black;
+    font-weight: bold;
 }

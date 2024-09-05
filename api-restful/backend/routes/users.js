@@ -47,4 +47,9 @@ router.patch('/users/:id', (req, res) => {
     //res.json(result);
 });
 
+router.post('/usernames', (req, res) => {
+    const result = socialMediaFacade.getUsernamesByIds(req, res);
+    //res.json(result);
+});
+
 export default router;

@@ -85,6 +85,17 @@ const userController = {
             console.log(error)
             response.status(500).json({ msg: 'Erro ao atualizar o usuario.' });
         }
+    },
+    getUsernamesByIds: async (request, response) => {
+        try {
+            const { userIds } = request.body; // Recebe a lista de IDs no corpo da requisição
+            const users = await User.find({ _id: { $in: userIds } }).select('username');
+            const usernames = users.map(user => user.username);
+            response.status(200).json({ usernames });
+        } catch (error) {
+            console.log(error);
+            response.status(500).json({ msg: 'Erro ao buscar usernames.' });
+        }
     }
 }
 
