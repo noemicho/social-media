@@ -1,0 +1,30 @@
+.edit-input {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    line-height: 1.5;
+    resize: vertical;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Arial', sans-serif;
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+
+.edit-input:focus {
+    border-color: #007bff;
+    box-shadow: inset 0 2px 4px rgba(0, 123, 255, 0.3);
+    outline: none;
+}
+
+.edit-input::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+.edit-input-container {
+    margin-bottom: 20px;
+    overflow: hidden;
+}

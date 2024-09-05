@@ -3,10 +3,11 @@ import curtiuIcon from '../images/curtiu.png';
 import naoCurtiuIcon from '../images/nao-curtiu.png';
 import comentarioIcon from '../images/comentario.png';
 import binIcon from '../images/bin-icon.png';
-import binIconComment from '../images/bin-icon.png';
+//import binIconComment from '../images/bin-icon.png';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Comments } from './Comments';
+import editPostIcon from '../images/edit-post-icon.png'
+import PostEdit from '../components/PostEdit'
 
 export function Post({ post, user }) {
     const [liked, setLiked] = useState(post.like.includes(localStorage.getItem('userId')));
@@ -15,6 +16,8 @@ export function Post({ post, user }) {
     const [newComment, setNewComment] = useState('');
     const [showComments, setShowComments] = useState(false);
     const [comments, setComments] = useState(post.comments); // Estado para comentários
+    const [showEditModal, setShowEditModal] = useState(false); // ver se mostra modal de edit ou nao
+    const [editedDescription, setEditedDescription] = useState(post.description); // edita descriçao do post
 
     const handleLike = async () => {
         const userId = localStorage.getItem('userId');
@@ -138,6 +141,39 @@ export function Post({ post, user }) {
         }
     };
     
+    const handleEditPost = () => {
+        setShowEditModal(true);
+    };
+
+    const handleSaveEdit = async () => {
+        const postId = post._id;
+
+        try {
+            const response = await fetch(`http://localhost:3002/api/post/${postId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
+                body: JSON.stringify({ description: editedDescription }),
+            });
+
+            if (response.ok) {
+                const updatedPost = await response.json();
+                setEditedDescription(updatedPost.post.description);
+                setShowEditModal(false);
+                window.location.reload(); // Recarrega a página para mostrar a legenda atualizada
+            } else {
+                console.error('Erro ao atualizar o post:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Erro na requisição de atualização:', error);
+        }
+    };
+
+    const handleDescriptionChange = (e) => {
+        setEditedDescription(e.target.value);
+    };
 
     return (
         <div className='posicao'>
@@ -175,6 +211,14 @@ export function Post({ post, user }) {
                     )}
                 </section>
 
+                <section className='edit-icon-container'>
+                    {user._id === localStorage.getItem('userId') && (
+                        <button onClick={handleEditPost}>
+                            <img className="edit-post-icon" src={editPostIcon} alt="edit post" />
+                        </button>
+                    )}
+                </section>
+
                 <section>
                     <p id="legenda">{post.description || "Legenda..."}</p>
                 </section>
@@ -186,8 +230,8 @@ export function Post({ post, user }) {
                                 <p key={comment._id}>
                                     <strong>{comment.username || "Unknow user"}</strong>: {comment.text}
                                     {comment.user === localStorage.getItem('userId') && ( // Mostra o botão apenas se o comentário for do usuário logado
-                                    <button onClick={() => handleDeleteComment(comment._id)} className='excluir-comentario'>Excluir</button>
-                                )}
+                                        <button onClick={() => handleDeleteComment(comment._id)} className='excluir-comentario'>Excluir</button>
+                                    )}
                                 </p>
                                 
                             ))}
@@ -203,6 +247,22 @@ export function Post({ post, user }) {
                             <button type="submit" className='comment-submit'>Send</button>
                         </form>
                     </section>
+                )}
+                {showEditModal && (
+                    <div className="modal-overlay">
+                        <div className="modal-content">
+                            <h2>Editar Post</h2>
+                            <PostEdit 
+                                post={post} 
+                                editedDescription={editedDescription}
+                                onDescriptionChange={handleDescriptionChange}
+                            />
+                            <div className="modal-actions">
+                                <button onClick={handleSaveEdit} className="save-edit-button">Salvar</button>
+                                <button onClick={() => setShowEditModal(false)} className="cancel-button">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
                 )}
             </div>
         </div>
